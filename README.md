@@ -14,4 +14,5 @@ the program can read from arguments or stdin.
 프로그램은 문장을 인자로 받거나 stdin으로 파일을 받아와 실행 가능합니다.
 
 `./speaker "많은 사람들이 걷는다."`
+
 `./speaker < YOUR_FILE.txt`
