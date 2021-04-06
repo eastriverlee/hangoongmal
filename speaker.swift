@@ -120,13 +120,13 @@ class 음절 {
     var 홑받침: Bool { 앞받침 == 없음 && 뒷받침 != 없음 }
     var 끝소리: 받침 {
         switch 종성 {
-        case _ㄲ, _ㄱㅅ, _ㄹㄱ, _ㅋ:         return _ㄱ
-        case _ㄴㅈ, _ㄴㅎ:                  return _ㄴ
-        case _ㅅ, _ㅆ, _ㅈ, _ㅊ, _ㅌ, _ㅎ:   return _ㄷ
-        case _ㄹㅎ:                        return _ㄹ
-        case _ㄹㅁ:                        return _ㅁ
-        case _ㅍ, _ㄹㅂ, _ㄹㅍ, _ㅂㅅ:        return _ㅂ
-        default :                         return 종성
+        case _ㄲ, _ㄱㅅ, _ㅋ, _ㄹㄱ:            return _ㄱ
+        case _ㄴㅈ, _ㄴㅎ:                      return _ㄴ
+        case _ㅅ, _ㅆ, _ㅈ, _ㅊ, _ㅌ, _ㅎ:      return _ㄷ
+        case _ㄹㅎ, _ㄹㅌ:                      return _ㄹ
+        case _ㄹㅁ:                             return _ㅁ
+        case _ㅍ, _ㅂㅅ, _ㄹㅂ, _ㄹㅍ:          return _ㅂ
+        default :                               return 종성
         }
     }
 }
@@ -138,7 +138,6 @@ extension 글자 {
 }
 
 extension 음운 {
-    
     var 된소리: 자음 {
         switch self {
         case ㄱ:  return ㄲ
@@ -237,10 +236,11 @@ extension 한글 {
     }
     func pronounced() -> [음절] {
         var 문장: [음절] = 예외(사잇소리).초성중성종성()
-        for i in 0 ..< 문장.count {
+        for i in 문장.indices {
             var 이번: 음절 { get { 문장[i] } set { 문장[i] = newValue } }
-            var 다음: 음절 { get { 문장[i + 1] } set { 문장[i + 1] = newValue } }
             guard i < 문장.count - 1 else { 이번.종성 = 이번.끝소리; break }
+            let j = i + (문장[i + 1].초성 == " " && 문장.count   > i + 2 ? 1 : 1)
+            var 다음: 음절 { get { 문장[j] } set { 문장[j] = newValue } }
             var 앞받침: 받침 { get { 이번.앞받침 } set { 이번.앞받침 = newValue } }
             var 뒷받침: 받침 { get { 이번.뒷받침 } set { 이번.뒷받침 = newValue } }
             func 만남(_ 자음들: [자음], _ 자음: 자음) -> Bool {
@@ -260,12 +260,17 @@ extension 한글 {
                 다음.초성 = ㄴ
                 continue
             } else if 만남([ㄴ], ㄹ) {
-                if 다음.초성 == ㄴ { 다음.초성 = ㄹ; 이번.종성 = _ㄹ; continue }
-                else { 이번.종성 = _ㄹ; continue }
+                if 다음.초성 == ㄴ {
+                    다음.초성 = ㄹ; 이번.종성 = _ㄹ
+                    continue 
+                }
+                else {
+                    이번.종성 = _ㄹ
+                    continue
+                }
             }
             
-            if 다음.초성 == ㅇ {
-                guard 이번.종성 != 없음 else { continue }
+            if 다음.초성 == ㅇ && 이번.종성 != 없음 {
                 //MARK: - 구개음화
                 if 다음.중성 == ㅣ {
                     if 이번.종성 == _ㄷ {
@@ -277,13 +282,18 @@ extension 한글 {
                         다음.초성 = ㅊ
                         continue
                     }
-                } else {
+                }
                 //MARK: - 연음
-                    guard 뒷받침 != _ㅇ else { break }
-                    guard 뒷받침 != _ㅎ else { 다음.초성 = 앞받침.자음; 이번.종성 = 없음; continue }
-                    다음.초성 = 뒷받침.자음
-                    이번.종성 = 앞받침
-                    continue
+                switch 뒷받침 {
+                    case _ㅇ: break
+                    case _ㅎ: 
+                        다음.초성 = 앞받침.자음
+                        이번.종성 = 없음
+                        continue
+                    default: 
+                        다음.초성 = 뒷받침.자음
+                        이번.종성 = 앞받침
+                        continue
                 }
             }
             
@@ -315,10 +325,10 @@ extension 한글 {
                     switch 이번.끝소리 {
                     case _ㄱ, _ㄷ, _ㅂ:
                         다음.초성 = 다음.초성.된소리
-                    case _ㄴ, _ㅁ, _ㄹ:
-                        guard 다음.초성 != ㅂ else { break }
+                    case _ㄹ:
+                        guard 다음.초성 != ㅂ && !이번.홑받침 else { break }
                         다음.초성 = 다음.초성.된소리
-                    default: continue
+                    default: break
                     }
                 default: break
                 }
@@ -329,9 +339,14 @@ extension 한글 {
     }
 }
 
-func speak(_ sentence: 한글) {
+enum Language: String {
+   case korean = "ko-KR"
+   case english = "en-US"
+}
+
+func speak(_ sentence: String, in language: Language) {
     let utterance = AVSpeechUtterance(string: sentence)
-    utterance.voice = AVSpeechSynthesisVoice(language: "ko-KR")
+    utterance.voice = AVSpeechSynthesisVoice(language: language.rawValue)
     utterance.rate = 0.5
     let synthesizer = AVSpeechSynthesizer()
     synthesizer.speak(utterance)
@@ -340,33 +355,104 @@ func speak(_ sentence: 한글) {
     }
 }
 
-func pronounce(_ sentence: 한글) {
+var isMimicking = false
+
+func mimic(_ sound: [음절]) -> String {
+    var pronunciation = ""
+    for syllable in sound {
+        let 초성 = syllable.초성
+        let 중성 = syllable.중성
+        let 종성 = syllable.종성
+        switch 초성 { 
+        case ㄱ: pronunciation += "gh"
+        case ㄴ: pronunciation += "n"
+        case ㄷ: pronunciation += "d"
+        case ㄹ: pronunciation += "r"
+        case ㅁ: pronunciation += "m"
+        case ㅂ: pronunciation += "b"
+        case ㅅ: pronunciation += "s"
+        case ㅈ: pronunciation += "j"
+        case ㅊ: pronunciation += "ch"
+        case ㅋ, ㄲ: pronunciation += "k"
+        case ㅌ, ㄸ: pronunciation += "t"
+        case ㅍ, ㅃ: pronunciation += "p"
+        case ㅎ: pronunciation += "h"
+        case " ": pronunciation += "-"
+        case ",": pronunciation += ","
+        case ".": pronunciation += "."
+        case "?": pronunciation += "?"
+        case "!": pronunciation += "!"
+        default: break
+        }
+        switch 중성 {
+        case ㅏ: pronunciation += "ah"
+        case ㅐ: pronunciation += "ae"
+        case ㅑ: pronunciation += "ya"
+        case ㅒ: pronunciation += "yae"
+        case ㅓ: pronunciation += "uh"
+        case ㅔ: pronunciation += "eh"
+        case ㅕ: pronunciation += "yuh"
+        case ㅖ: pronunciation += "ye"
+        case ㅗ: pronunciation += "o"
+        case ㅛ: pronunciation += "yo"
+        case ㅜ: pronunciation += "woo"
+        case ㅝ: pronunciation += "woe"
+        case ㅞ: pronunciation += "wooeh"
+        case ㅟ: pronunciation += "we"
+        case ㅠ: pronunciation += "u"
+        case ㅡ: pronunciation += "woo"
+        case ㅢ: pronunciation += "euee"
+        case ㅣ: pronunciation += "ee"
+        default: break
+        }
+        switch 종성 {
+        case _ㄱ: pronunciation += "k"
+        case _ㄴ: pronunciation += "n"
+        case _ㄷ: pronunciation += "t"
+        case _ㄹ: pronunciation += "l"
+        case _ㅁ: pronunciation += "m"
+        case _ㅂ: pronunciation += "b"
+        case _ㅇ: pronunciation += "ng"
+        default: break
+        }
+        pronunciation += " "
+    }
+    return pronunciation
+}
+
+func pronounce(_ sentence: 한글, in language: Language = .korean) {
     let sound = sentence.pronounced()
-    var res = ""
+    var pronunciation = ""
     for syllable in sound {
         let 초성 = syllable.초성.unicode()
         let 중성 = syllable.중성.unicode()
         let 종성 = syllable.종성.unicode()
-        guard 초성 != 32 && (0x1100 <= 초성 && 초성 <= 0x1112) else {res += "\(syllable.초성)"; continue}
+        guard 초성 != 32 && (0x1100 <= 초성 && 초성 <= 0x1112) else {pronunciation += "\(syllable.초성)"; continue}
         if 종성 == 32 {
-            guard 중성 != 32 else {res += "\(syllable.초성)"; continue}
+            guard 중성 != 32 else {pronunciation += "\(syllable.초성)"; continue}
             let c = (start + ((초성 - 0x1100) * 21 + (중성 - 0x1161)) * 28).character()
-            res += "\(c)"
+            pronunciation += "\(c)"
         } else {
             let c = (start + ((초성 - 0x1100) * 21 + (중성 - 0x1161)) * 28 + (종성 - 0x11A7)).character()
-            res += "\(c)"
+            pronunciation += "\(c)"
         }
-        
     }
-    print("[\(res)]")
-    speak(res)
+    print(pronunciation)
+    if isMimicking {
+        pronunciation = mimic(sound)
+    }
+    speak(pronunciation, in: language)
 }
 
 let arguments = CommandLine.arguments
 if arguments.count > 1 {
     for i in arguments.indices {
         if i != 0 {
-            pronounce(arguments[i])
+            if i == 1 && arguments[i] == "-m" {
+                isMimicking = true
+            } else {
+                pronounce(arguments[i], in: isMimicking ? .english : .korean)
+            }
         }
     }
 } else {
