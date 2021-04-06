@@ -23,6 +23,7 @@ $ ./speaker "따갑기만 한 햇볕 아래서 칼날 같은 소금을 핥았다
 $ ./speaker < YOUR_FILE.txt
 ````
 -m option mimics korean pronunciation in english  
+
 -m 옵션은 한국어 발음을 영어로 흉내냅니다.
 ````bash
 $ ./speaker -m "따갑기만 한 햇볕 아래서 칼날 같은 소금을 핥았다."
