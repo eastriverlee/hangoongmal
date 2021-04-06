@@ -22,6 +22,7 @@ $ ./speaker "따갑기만 한 햇볕 아래서 칼날 같은 소금을 핥았다
 ````bash
 $ ./speaker < YOUR_FILE.txt
 ````
+
 ````bash
 $ ./speaker -m "따갑기만 한 햇볕 아래서 칼날 같은 소금을 핥았다."
 tah ghahb kee mahn - hahn - haed sahl - ah rae suh - kahl rahl - ghah twoon - so ghwoo mwool - hahl tahd tah
