@@ -1,4 +1,4 @@
-# korean_pronunciation
+# pickyorean
 this is a program that outputs sound and text of korean pronunciation.
 TTS uses AVfoundation framework (of Mac OS) to produce sound.
 
