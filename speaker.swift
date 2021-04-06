@@ -370,9 +370,9 @@ func mimic(_ sound: [음절]) -> String {
         case ㄹ: pronunciation += "r"
         case ㅁ: pronunciation += "m"
         case ㅂ: pronunciation += "b"
-        case ㅅ: pronunciation += "s"
+        case ㅅ, ㅆ: pronunciation += "s"
         case ㅈ: pronunciation += "j"
-        case ㅊ: pronunciation += "ch"
+        case ㅊ, ㅉ: pronunciation += "ch"
         case ㅋ, ㄲ: pronunciation += "k"
         case ㅌ, ㄸ: pronunciation += "t"
         case ㅍ, ㅃ: pronunciation += "p"
@@ -408,7 +408,7 @@ func mimic(_ sound: [음절]) -> String {
         switch 종성 {
         case _ㄱ: pronunciation += "k"
         case _ㄴ: pronunciation += "n"
-        case _ㄷ: pronunciation += "t"
+        case _ㄷ: pronunciation += "d"
         case _ㄹ: pronunciation += "l"
         case _ㅁ: pronunciation += "m"
         case _ㅂ: pronunciation += "b"
@@ -437,10 +437,10 @@ func pronounce(_ sentence: 한글, in language: Language = .korean) {
             pronunciation += "\(c)"
         }
     }
-    print(pronunciation)
     if isMimicking {
         pronunciation = mimic(sound)
     }
+    print(pronunciation)
     speak(pronunciation, in: language)
 }
 
