@@ -6,13 +6,19 @@ TTS uses AVfoundation framework (of Mac OS) to produce voice.
 TTS는 (맥 운영체제의) AVfoundation을 사용해 목소리를 생성합니다.
 
 ## build
-```swiftc speaker.swift```
+````bash
+swiftc speaker.swift
+````
 
 ## run
 the program can read from arguments or stdin.
 
 프로그램은 문장을 인자로 받거나 stdin으로 파일을 받아와 실행 가능합니다.
 
-```./speaker "많은 사람들이 걷는다."```
+````bash
+./speaker "따갑기만 한 햇볕 아래서 칼날 같은 소금을 핥았다."
+````
 
-```./speaker < YOUR_FILE.txt```
+````bash
+./speaker < YOUR_FILE.txt
+````
