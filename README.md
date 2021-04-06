@@ -16,7 +16,7 @@ the program can read from arguments or stdin.
 프로그램은 문장을 인자로 받거나 stdin으로 파일을 받아와 실행 가능합니다.
 
 ````bash
-$ ./speaker "따갑기만 한 햇볕 아래서 칼날 같은 소금을 핥았다."
+$ ./speaker "따갑기만 한 햇살 아래서 칼날 같은 소금을 핥았다."
 따갑끼만 한 핻쌀 아래서 칼랄 가튼 소그믈 할탇따
 ````  
 ````bash
@@ -26,6 +26,6 @@ $ ./speaker < YOUR_FILE.txt
 
 -m 옵션은 한국어 발음을 영어로 흉내냅니다.
 ````bash
-$ ./speaker -m "따갑기만 한 햇볕 아래서 칼날 같은 소금을 핥았다."
+$ ./speaker -m "따갑기만 한 햇살 아래서 칼날 같은 소금을 핥았다."
 tah ghahb kee mahn - hahn - haed sahl - ah rae suh - kahl rahl - ghah twoon - so ghwoo mwool - hahl tahd tah
 ````  
