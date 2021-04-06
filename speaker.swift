@@ -1,3 +1,4 @@
+import Foundation
 import AVFoundation
 
 let start: UInt16 = 0xAC00
@@ -334,6 +335,9 @@ func speak(_ sentence: 한글) {
     utterance.rate = 0.5
     let synthesizer = AVSpeechSynthesizer()
     synthesizer.speak(utterance)
+    while (synthesizer.isSpeaking) {
+        sleep(1)
+    }
 }
 
 func pronounce(_ sentence: 한글) {
@@ -348,20 +352,19 @@ func pronounce(_ sentence: 한글) {
             guard 중성 != 32 else {res += "\(syllable.초성)"; continue}
             let c = (start + ((초성 - 0x1100) * 21 + (중성 - 0x1161)) * 28).character()
             res += "\(c)"
-            print(syllable.초성, syllable.중성)
         } else {
             let c = (start + ((초성 - 0x1100) * 21 + (중성 - 0x1161)) * 28 + (종성 - 0x11A7)).character()
             res += "\(c)"
-            print(syllable.초성, syllable.중성, syllable.종성)
         }
         
     }
     print("[\(res)]")
-    speak(sentence + ". " + res)
+    speak(res)
 }
 
-let example0 = "따갑기만 한 햇볕 아래서 칼날 같은 소금을 핥았다."
-let example1 = "볕이 들자 우리 여덟은 무릎을 굽혀 앉아 눈앞의 꽃을 꺾을 수밖에 없었다."
-let example2 = "휘발유, 깃발, 식용유, 좋고, 먹는, 앞마당, 신라, 칼날, 않고, 앉아, 닳다, 합리, 격리, 입는, 끓는, 끊다, 깻잎, 눈요기, 신여성"
-
-pronounce(example2)
+let arguments = CommandLine.arguments
+for i in arguments.indices {
+    if i != 0 {
+        pronounce(arguments[i])
+    }
+}
