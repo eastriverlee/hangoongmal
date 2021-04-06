@@ -363,8 +363,15 @@ func pronounce(_ sentence: 한글) {
 }
 
 let arguments = CommandLine.arguments
-for i in arguments.indices {
-    if i != 0 {
-        pronounce(arguments[i])
+if arguments.count > 1 {
+    for i in arguments.indices {
+        if i != 0 {
+            pronounce(arguments[i])
+        }
+    }
+} else {
+    let filedata = FileHandle.standardInput.availableData
+    if let content = String(bytes: filedata, encoding: .utf8) {
+        pronounce(content)
     }
 }
