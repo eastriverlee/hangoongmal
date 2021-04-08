@@ -22,9 +22,9 @@ $ ./speaker "따갑기만 한 햇살 아래서 칼날 같은 소금을 핥았다
 ````bash
 $ ./speaker < YOUR_FILE.txt
 ````
--m option mimics korean pronunciation in english  
+-m option mimics(transliterate) korean pronunciation in english.  
 
--m 옵션은 한국어 발음을 영어로 흉내냅니다.
+-m 옵션은 한국어 발음을 영어로 흉내냅니다(음역).
 ````bash
 $ ./speaker -m "따갑기만 한 햇살 아래서 칼날 같은 소금을 핥았다."
 tah ghahb kee mahn - hahn - haed sahl - ah rae suh - kahl rahl - ghah twoon - so ghwoo mwool - hahl tahd tah
