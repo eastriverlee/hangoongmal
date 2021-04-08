@@ -1,9 +1,11 @@
 # hangoongmal 🇰🇷
-**hangoongmal** is a program that outputs sound and text of korean pronunciation.  
-TTS uses AVfoundation framework (of Mac OS) to produce voice.
+**hangoongmal** is a program that outputs sound and text of korean according to its pronunciation rule.  
+TTS uses AVfoundation framework (of Mac OS) to produce voice.  
+pronunciation rules for specific kinds of words will not be applied.
 
-**한궁말**은 한국어 발음을 소리와 문자열로 출력하는 프로그램입니다.  
+**한궁말**은 한국어를 발음규칙에 따라 소리와 문자열로 출력하는 프로그램입니다.  
 TTS는 (맥 운영체제의) AVfoundation을 사용해 목소리를 생성합니다.
+특정 단어에 한한 발음 규칙은 적용되지 않습니다.
 
 ## build
 ````bash
