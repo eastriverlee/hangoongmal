@@ -129,9 +129,24 @@ class 음절 {
         default :                               return 종성
         }
     }
+    var character: 글자 {
+       글자(초성, 중성, 종성) 
+    }
 }
 
 extension 글자 {
+    init(_ 초성: 자음, _ 중성: 모음, _ 종성: 받침) {
+        let 초성 = 초성.unicode()
+        let 중성 = 중성.unicode()
+        let 종성 = 종성.unicode()
+        if 초성 == 32 || !(0x1100 <= 초성 && 초성 <= 0x1112) {self = 초성.character(); return}
+        if 종성 == 32 {
+            guard 중성 != 32 else {self = 초성.character(); return}
+            self = (start + ((초성 - 0x1100) * 21 + (중성 - 0x1161)) * 28).character()
+        } else {
+            self = (start + ((초성 - 0x1100) * 21 + (중성 - 0x1161)) * 28 + (종성 - 0x11A7)).character()
+        }
+    }
     func 초성중성종성() -> 음절 {
         return 음절(self)
     }
@@ -422,21 +437,7 @@ func mimic(_ sound: [음절]) -> String {
 
 func pronounce(_ sentence: 한글, in language: Language = .korean) {
     let sound = sentence.pronounced()
-    var pronunciation = ""
-    for syllable in sound {
-        let 초성 = syllable.초성.unicode()
-        let 중성 = syllable.중성.unicode()
-        let 종성 = syllable.종성.unicode()
-        guard 초성 != 32 && (0x1100 <= 초성 && 초성 <= 0x1112) else {pronunciation += "\(syllable.초성)"; continue}
-        if 종성 == 32 {
-            guard 중성 != 32 else {pronunciation += "\(syllable.초성)"; continue}
-            let c = (start + ((초성 - 0x1100) * 21 + (중성 - 0x1161)) * 28).character()
-            pronunciation += "\(c)"
-        } else {
-            let c = (start + ((초성 - 0x1100) * 21 + (중성 - 0x1161)) * 28 + (종성 - 0x11A7)).character()
-            pronunciation += "\(c)"
-        }
-    }
+    var pronunciation = String(sound.map {$0.character})
     if isMimicking {
         pronunciation = mimic(sound)
     }
