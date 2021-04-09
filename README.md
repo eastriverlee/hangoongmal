@@ -1,5 +1,5 @@
 # hangoongmal 🇰🇷
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/myaccount/transfer/homepage/external/profile?flowContextData=LLzCi2DBh7qKd13L_cHYkNK1YQYWPjig9zW4bnb04w42So2WPCQPhv46FTWLDzDkxmluVaQuSLbS7ITliyxqZwIBso4h-Zy4uwDJYDoUAuHT9KlBptsNfEFV9hT5oCr335XAKV32L6o9o_UdvUsaSBxE1B_mxQIGwRLVMNTbxyepR6KjHRFbhZkR6ixYRqfo23_-jWJqNMA7yrECpEnYE5XWfJq0KwpYtQVGr-jx2iiSmYKAxEnRii4EI4Rrzy3PaZOVVFlse0SielTz16rnmB3ve8w5mUCobjrNLpaVm3di2B9f8sdpPZZ_asbK6EYgQBxuFfzLQE4CmyCuzEupg1zsuBmrFWD-LvpOAou8aX9wOYShSPC_kjhD_vV0FjGbLCJvYi_bFOvhsRG2)  
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/eastriverlee)  
 **hangoongmal** is a program that outputs sound and text of korean according to its pronunciation rule.  
 TTS uses AVfoundation framework (of Mac OS) to produce voice.  
 pronunciation rules for specific kinds of words will not be applied.
