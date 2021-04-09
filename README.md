@@ -35,7 +35,7 @@ tah ghahb kee mahn - hahn - haed sahl - ah rae suh - kahl rahl - ghah twoon - so
 
 ## all pronounceable characters(as is)
 ````swift
-var consonants = [ㄱ, ㄲ, ㄴ, ㄸ, ㄹ, ㅁ, ㅂ, ㅃ, ㅅ, ㅆ, ㅇ, ㅈ, ㅉ, ㅊ, ㅋ, ㅌ, ㅍ, ㅎ]
+var consonants = [ㄱ, ㄲ, ㄴ, ㄷ, ㄸ, ㄹ, ㅁ, ㅂ, ㅃ, ㅅ, ㅆ, ㅇ, ㅈ, ㅉ, ㅊ, ㅋ, ㅌ, ㅍ, ㅎ]
 var vowels = [ㅏ, ㅐ, ㅑ, ㅒ, ㅓ, ㅔ, ㅕ, ㅖ, ㅗ, ㅘ, ㅚ, ㅛ, ㅜ, ㅝ, ㅟ, ㅠ, ㅡ, ㅢ, ㅣ]
 var supports = [없음, _ㄱ, _ㄴ, _ㄷ, _ㄹ, _ㅁ, _ㅂ, _ㅇ]
 
